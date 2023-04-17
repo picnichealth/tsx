@@ -12,7 +12,7 @@
 		"typescript"
 	],
 	"license": "MIT",
-	"repository": "esbuild-kit/tsx",
+	"repository": "picnichealth/tsx",
 	"author": {
 		"name": "Hiroki Osame",
 		"email": "hiroki.osame@gmail.com"
@@ -31,18 +31,10 @@
 	},
 	"bin": "./dist/cli.js",
 	"scripts": {
-		"prepare": "pnpm simple-git-hooks",
 		"build": "pkgroll --target=node12.19 --minify",
-		"lint": "eslint --cache .",
 		"type-check": "tsc --noEmit",
-		"test": "pnpm build && node ./dist/cli.js tests/index.ts",
-		"prepack": "pnpm build && clean-pkg-json"
-	},
-	"simple-git-hooks": {
-		"pre-commit": "pnpm lint-staged"
-	},
-	"lint-staged": {
-		"*.{js,ts,mjs,mts,cjs,cts,json}": "pnpm lint"
+		"test": "npm run build && node ./dist/cli.js tests/index.ts",
+		"prepack": "npm run build && clean-pkg-json"
 	},
 	"dependencies": {
 		"@esbuild-kit/cjs-loader": "^2.4.2",

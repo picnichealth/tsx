@@ -35,6 +35,11 @@ const flags = {
 		type: [String],
 		description: 'Paths & globs to exclude from being watched',
 	},
+	useSigkill: {
+		type: [String],
+		description: 'When restarting use SIGKILL instead of SIGTERM to kill the last process',
+		default: false,
+	},
 } as const;
 
 export const watchCommand = command({
@@ -59,6 +64,7 @@ export const watchCommand = command({
 		tsconfigPath: argv.flags.tsconfig,
 		clearScreen: argv.flags.clearScreen,
 		ignore: argv.flags.ignore,
+		useSigkill: argv.flags.useSigkill,
 		ipc: true,
 	};
 
@@ -69,7 +75,8 @@ export const watchCommand = command({
 			runProcess
 			&& (!runProcess.killed && runProcess.exitCode === null)
 		) {
-			runProcess.kill();
+			const killSignal = options.useSigkill ? 'SIGKILL' : 'SIGTERM';
+			runProcess.kill(killSignal);
 		}
 
 		// Not first run
